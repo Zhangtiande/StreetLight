@@ -76,7 +76,7 @@ public class PlaceholderFragment extends Fragment {
             seekBar.setMin(0);
             if (device.getLight() == null) {
                 seekBar.setProgress(0);
-            }else {
+            } else {
                 seekBar.setProgress(Math.round(Float.parseFloat(device.getLight()) / 100 * 1024));
             }
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
