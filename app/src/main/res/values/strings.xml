@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">StreetLight</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="textview">TextView</string>
+    <string name="id">设备ID</string>
+    <string name="name">设备名称</string>
+    <string name="des">设备描述</string>
+    <string name="status">设备状态</string>
+    <string name="string_status" />
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="tab_text_1">命令下发</string>
+    <string name="tab_text_2">设备光照强度</string>
+    <string name="Command">下发</string>
+    <string name="light">灯光亮度</string>
+    <string name="lum">环境光强</string>
+    <string name="zone">设备所在区域</string>
+    <string name="tab_text_3">环境光照强度</string>
+    <string name="auto">自动调整</string>
+    <string name="control">亮度手动控制</string>
+    <string name="plane"></string>
+    <string name="log">设备消息：</string>
+    <string name="detail">命令下发</string>
+</resources>
