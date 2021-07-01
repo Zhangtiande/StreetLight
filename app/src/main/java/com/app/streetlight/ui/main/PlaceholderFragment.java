@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.app.streetlight.DetailActivity;
 import com.app.streetlight.Device.Device;
 import com.app.streetlight.Device.RequestCommand;
 import com.app.streetlight.Device.UpdateProperties;
+import com.app.streetlight.MainActivity;
 import com.app.streetlight.R;
 import com.app.streetlight.databinding.FragmentDetailBinding;
 import com.app.streetlight.databinding.FragmentLineBinding;
@@ -27,6 +30,7 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static Device device;
+    private static final StringBuilder str = new StringBuilder();
 
     private int index = 1;
 
@@ -74,6 +78,8 @@ public class PlaceholderFragment extends Fragment {
             SeekBar seekBar = root.findViewById(R.id.seekBar2);
             seekBar.setMax(1024);
             seekBar.setMin(0);
+            str.append("当前亮度：").append(seekBar.getProgress()).append('\n');
+            log.setText(str);
             if (device.getLight() == null) {
                 seekBar.setProgress(0);
             } else {
@@ -92,6 +98,8 @@ public class PlaceholderFragment extends Fragment {
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
+                    str.append("当前亮度：").append(seekBar.getProgress()).append('\n');
+                    log.setText(str);
                     RequestCommand requestCommand = new RequestCommand(String.valueOf(seekBar.getProgress())
                             , device.getDeviceId(), device.getIndex());
                     Thread thread = new Thread(requestCommand);

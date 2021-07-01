@@ -132,7 +132,7 @@ public class WarnService extends IntentService {
 
                 synchronized (Thread.currentThread()) {
                     try {
-                        Thread.currentThread().wait(10 * 60 * 1000);
+                        Thread.currentThread().wait(60 * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
