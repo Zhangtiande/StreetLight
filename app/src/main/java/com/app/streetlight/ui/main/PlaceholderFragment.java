@@ -8,16 +8,13 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.app.streetlight.DetailActivity;
 import com.app.streetlight.Device.Device;
 import com.app.streetlight.Device.RequestCommand;
 import com.app.streetlight.Device.UpdateProperties;
-import com.app.streetlight.MainActivity;
 import com.app.streetlight.R;
 import com.app.streetlight.databinding.FragmentDetailBinding;
 import com.app.streetlight.databinding.FragmentLineBinding;
@@ -72,6 +69,14 @@ public class PlaceholderFragment extends Fragment {
                 Thread thread = new Thread(updateProperties);
                 thread.start();
             });
+            @SuppressLint("UseSwitchCompatOrMaterialCode") Switch sw = root.findViewById(R.id.fog_switch);
+            sw.setChecked(device.isFog());
+            sw.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+                RequestCommand requestCommand = new RequestCommand("fog", String.valueOf(isChecked),
+                        device.getDeviceId(), device.getIndex());
+                Thread thread = new Thread(requestCommand);
+                thread.start();
+            }));
             TextView name = root.findViewById(R.id.detail_id);
             name.setText(device.getDeviceName());
             TextView log = root.findViewById(R.id.log);
@@ -100,7 +105,7 @@ public class PlaceholderFragment extends Fragment {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     str.append("当前亮度：").append(seekBar.getProgress()).append('\n');
                     log.setText(str);
-                    RequestCommand requestCommand = new RequestCommand(String.valueOf(seekBar.getProgress())
+                    RequestCommand requestCommand = new RequestCommand("light", String.valueOf(seekBar.getProgress())
                             , device.getDeviceId(), device.getIndex());
                     Thread thread = new Thread(requestCommand);
                     thread.start();

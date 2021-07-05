@@ -95,6 +95,9 @@ public class WarnService extends IntentService {
     private void handleActionFoo() {
         List<String> strings = new ArrayList<>();
         while (true) {
+            if (strings.size() > 0) {
+                strings.clear();
+            }
             GetDevice getDevice = new GetDevice();
             future = executorService.submit(getDevice);
             try {

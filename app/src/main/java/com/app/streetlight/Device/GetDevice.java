@@ -82,6 +82,8 @@ public class GetDevice implements Callable<List<Device>> {
             String s1 = "luminance_light" + t + "=([0-9]{1,6})";
             String s2 = "intensity_light" + t + "=([0-9]{1,2}.[0-9]{1,2})";
             String s3 = "auto_light" + t + "=([a-z]{4,5})";
+            String s4 = "rain_light" + t + "=([0-9]{1,4})";
+            String s5 = "fog_light" + t + "=([a-z]{4,5})";
             Pattern pattern = Pattern.compile(s1);
             Matcher matcher = pattern.matcher(response.toString());
             while (matcher.find()) {
@@ -97,8 +99,20 @@ public class GetDevice implements Callable<List<Device>> {
             while (matcher.find()) {
                 String s = matcher.group(1);
                 assert s != null;
-                s = s.substring(0,s.length()-1);
                 device.setAuto(Boolean.parseBoolean(s));
+            }
+            pattern = Pattern.compile(s4);
+            matcher = pattern.matcher(response.toString());
+            while (matcher.find()) {
+                String s = matcher.group(1);
+                device.setRain(s);
+            }
+            pattern = Pattern.compile(s5);
+            matcher = pattern.matcher(response.toString());
+            while (matcher.find()) {
+                String s = matcher.group(1);
+                assert s != null;
+                device.setFog(Boolean.parseBoolean(s));
             }
         });
         return devices;

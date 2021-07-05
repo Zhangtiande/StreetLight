@@ -55,10 +55,10 @@
             android:text="@string/lum" />
 
         <TextView
-            android:id="@+id/zone"
+            android:id="@+id/rain"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:text="@string/zone" />
+            android:text="@string/fog" />
 
     </LinearLayout>
 

@@ -14,12 +14,19 @@ public class RequestCommand implements Runnable {
     public String value;
     public String id;
     public int num;
+    String[] name = {"intensity", "fog"};
+    public String commandName;
+    public String command;
 
-    public RequestCommand() {
-    }
 
-
-    public RequestCommand(String value, String id, int num) {
+    public RequestCommand(String type, String value, String id, int num) {
+        if (type.equals("fog")) {
+            commandName = name[1];
+            command = "fog_status";
+        } else {
+            commandName = name[0];
+            command = "value";
+        }
         this.value = value;
         this.id = id;
         this.num = num;
@@ -32,11 +39,11 @@ public class RequestCommand implements Runnable {
         CreateCommandRequest request = new CreateCommandRequest();
         request.withDeviceId(id);
         DeviceCommandRequest body = new DeviceCommandRequest();
-        body.withCommandName("intensity");
+        body.withCommandName(commandName);
         body.withServiceId("LightControl");
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("value",value);
-        hashMap.put("light",String.valueOf(num));
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(command, value);
+        hashMap.put("light", String.valueOf(num));
         body.setParas(hashMap);
         request.withBody(body);
         try {

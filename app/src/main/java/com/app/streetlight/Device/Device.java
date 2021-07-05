@@ -14,11 +14,15 @@ public class Device implements Serializable {
     private String light;
     private int index;
     private boolean auto;
+    private boolean fog;
+    private String rain;
 
     public Device() {
     }
 
-    public Device(String deviceId, String deviceName, String description, String status, String lum, String zone, String light, boolean auto) {
+    public Device(String deviceId, String deviceName, String description, String status,
+                  String lum, String zone, String light, int index, boolean auto, boolean fog,
+                  String rain) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.description = description;
@@ -26,7 +30,10 @@ public class Device implements Serializable {
         this.lum = lum;
         this.zone = zone;
         this.light = light;
+        this.index = index;
         this.auto = auto;
+        this.fog = fog;
+        this.rain = rain;
         this.index = Integer.parseInt(String.valueOf(deviceId.charAt(deviceId.length() - 1)));
     }
 
@@ -87,6 +94,14 @@ public class Device implements Serializable {
         this.light = light;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public boolean isAuto() {
         return auto;
     }
@@ -95,12 +110,20 @@ public class Device implements Serializable {
         this.auto = auto;
     }
 
-    public int getIndex() {
-        return index;
+    public boolean isFog() {
+        return fog;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setFog(boolean fog) {
+        this.fog = fog;
+    }
+
+    public String getRain() {
+        return rain;
+    }
+
+    public void setRain(String rain) {
+        this.rain = rain;
     }
 
     @NotNull
@@ -114,7 +137,10 @@ public class Device implements Serializable {
                 ", lum='" + lum + '\'' +
                 ", zone='" + zone + '\'' +
                 ", light='" + light + '\'' +
+                ", index=" + index +
                 ", auto=" + auto +
+                ", fog=" + fog +
+                ", rain='" + rain + '\'' +
                 '}';
     }
 }

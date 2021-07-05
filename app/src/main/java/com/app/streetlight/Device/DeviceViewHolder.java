@@ -18,7 +18,7 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
     public TextView status;
     public TextView lum;
     public TextView light;
-    public TextView zone;
+    public TextView rain;
     private RecyclerView.Adapter adapter;
 
     public DeviceViewHolder(@NonNull @NotNull View itemView, RecyclerView.Adapter adapter) {
@@ -28,7 +28,7 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         this.status = itemView.findViewById(R.id.Status);
         this.lum = itemView.findViewById(R.id.lum);
         this.light = itemView.findViewById(R.id.light);
-        this.zone = itemView.findViewById(R.id.zone);
+        this.rain = itemView.findViewById(R.id.rain);
         this.adapter = adapter;
     }
 

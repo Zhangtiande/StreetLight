@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             public void onBindViewHolder(@NonNull @NotNull DeviceViewHolder holder, int position) {
                 Device device = devices.get(position);
                 String status = device.getStatus();
+                holder.rain.setText("雨滴测量量：" + device.getRain());
                 holder.name.setText("设备名称：" + device.getDeviceName());
                 holder.status.setText("设备状态：" + status);
                 holder.light.setText("设备光照强度：" + device.getLight());

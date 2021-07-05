@@ -28,4 +28,5 @@
     <string name="plane"></string>
     <string name="log">设备消息：</string>
     <string name="detail">命令下发</string>
+    <string name="fog">雾灯状态</string>
 </resources>
