@@ -5,7 +5,6 @@ import com.huaweicloud.sdk.core.exception.RequestTimeoutException;
 import com.huaweicloud.sdk.core.exception.ServiceResponseException;
 import com.huaweicloud.sdk.iotda.v5.IoTDAClient;
 import com.huaweicloud.sdk.iotda.v5.model.CreateCommandRequest;
-import com.huaweicloud.sdk.iotda.v5.model.CreateCommandResponse;
 import com.huaweicloud.sdk.iotda.v5.model.DeviceCommandRequest;
 
 import java.util.HashMap;
@@ -47,8 +46,7 @@ public class RequestCommand implements Runnable {
         body.setParas(hashMap);
         request.withBody(body);
         try {
-            CreateCommandResponse response = client.createCommand(request);
-            System.out.println(response.toString());
+            client.createCommand(request);
         } catch (ConnectionException | RequestTimeoutException e) {
             e.printStackTrace();
         } catch (ServiceResponseException e) {

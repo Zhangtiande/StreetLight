@@ -77,8 +77,6 @@ public class GetDevice implements Callable<List<Device>> {
             String t = String.valueOf(device.getIndex());
             req.withDeviceId(device.getDeviceId());
             ShowDeviceShadowResponse response = client.showDeviceShadow(req);
-//            String str = "luminance_light" + t + "=(.*), intensity_light" + t +
-//                    "=(.*), auto_light" + t + "=(.*)";
             String s1 = "luminance_light" + t + "=([0-9]{1,6})";
             String s2 = "intensity_light" + t + "=([0-9]{1,2}.[0-9]{1,2})";
             String s3 = "auto_light" + t + "=([a-z]{4,5})";

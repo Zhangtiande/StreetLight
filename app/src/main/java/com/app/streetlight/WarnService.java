@@ -32,14 +32,11 @@ public class WarnService extends IntentService {
 
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_WARN = "com.app.streetlight.action.Warning";
-    private static final String ACTION_BAZ = "com.app.streetlight.action.BAZ";
 
-    private static final String EXTRA_PARAM1 = "com.app.streetlight.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.app.streetlight.extra.PARAM2";
-    private static final String CHANNEL_ID = "test";
-    private NotificationManager nm;
 
+    private static final String CHANNEL_ID = "Warning";
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private NotificationManager nm;
     private Future<List<Device>> future;
     private List<Device> devices = new ArrayList<>();
 
@@ -59,19 +56,6 @@ public class WarnService extends IntentService {
         context.startService(intent);
     }
 
-    /**
-     * Starts this service to perform action Baz with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    public static void startActionBaz(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, WarnService.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        context.startService(intent);
-    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -80,10 +64,6 @@ public class WarnService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_WARN.equals(action)) {
                 handleActionFoo();
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
             }
         }
     }
@@ -114,8 +94,8 @@ public class WarnService extends IntentService {
                         this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 String name = "test channel";
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,name,NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription("测试Channel的描述信息");
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription("设备告警信息");
                 nm.createNotificationChannel(channel);
                 NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
                 strings.forEach(style::addLine);
@@ -146,11 +126,4 @@ public class WarnService extends IntentService {
         }
     }
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

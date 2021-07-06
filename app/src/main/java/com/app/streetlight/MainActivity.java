@@ -172,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
         private Void Void;
 
+        deviceTask() {
+        }
+
 
         @Override
         protected Void doInBackground(Void... voids) {

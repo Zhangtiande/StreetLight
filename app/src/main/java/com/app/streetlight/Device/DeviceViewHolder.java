@@ -12,14 +12,12 @@ import com.app.streetlight.R;
 import org.jetbrains.annotations.NotNull;
 
 public class DeviceViewHolder extends RecyclerView.ViewHolder {
-    public View rootView;
     public TextView name;
     public ImageView statusImg;
     public TextView status;
     public TextView lum;
     public TextView light;
     public TextView rain;
-    private RecyclerView.Adapter adapter;
 
     public DeviceViewHolder(@NonNull @NotNull View itemView, RecyclerView.Adapter adapter) {
         super(itemView);
@@ -29,7 +27,6 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         this.lum = itemView.findViewById(R.id.lum);
         this.light = itemView.findViewById(R.id.light);
         this.rain = itemView.findViewById(R.id.rain);
-        this.adapter = adapter;
     }
 
 
