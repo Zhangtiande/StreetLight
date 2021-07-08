@@ -37,7 +37,7 @@ import java.util.concurrent.Future;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final StringBuilder str = new StringBuilder();
+    private static StringBuilder str = new StringBuilder();
     private static Device device;
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
     private final Handler handler = new Handler();
@@ -46,6 +46,7 @@ public class PlaceholderFragment extends Fragment {
     private FragmentDetailBinding binding;
     private FragmentLineBinding binding2;
     private Runnable task;
+    private int count = 0;
 
     public static PlaceholderFragment newInstance(int index, Device d) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -127,7 +128,7 @@ public class PlaceholderFragment extends Fragment {
             task = new Runnable() {
                 @Override
                 public void run() {
-                    handler.postDelayed(this, 15 * 1000);//设置延迟时间，此处是5秒
+                    handler.postDelayed(this, 1 * 1000);//设置延迟时间，此处是5秒
                     GetDevice getDevice = new GetDevice();
                     Future<List<Device>> future = executorService.submit(getDevice);
                     try {
@@ -163,8 +164,12 @@ public class PlaceholderFragment extends Fragment {
 
 
     public synchronized void setTextEdit(Device device) {
+        if (count++ >= 6) {
+            count = 0;
+            str = new StringBuilder();
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        format.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         String date = format.format(new Date());
         str.append(date).append('\n');
         str.append(device.toString()).append('\n').append('\n');
