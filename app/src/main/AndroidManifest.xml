@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StreetLight"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup"
+        android:usesCleartextTraffic="true">
         <service
             android:name=".WarnService"
             android:exported="false" />
@@ -24,16 +25,16 @@
             android:theme="@style/Theme.StreetLight.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".MainActivity"
-            android:taskAffinity=""
-            android:excludeFromRecents="true">
+            android:label="@string/title_activity_login">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
 
     </application>
 

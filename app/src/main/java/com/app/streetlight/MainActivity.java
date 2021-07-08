@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
     private final Runnable task =new Runnable() {
         public void run() {
-            handler.postDelayed(this,5*1000);//设置延迟时间，此处是5秒
+            handler.postDelayed(this, 10 * 1000);
             GetDevice getDevice = new GetDevice();
             Future<List<Device>> future = executorService.submit(getDevice);
             try {
@@ -122,12 +122,13 @@ public class MainActivity extends AppCompatActivity {
         });
         deviceTask deviceTask = new deviceTask();
         deviceTask.execute();
-        handler.postDelayed(task,5000);//延迟调用
+        handler.post(task);
     }
 
 
     public void getDevice() {
         recyclerView.setAdapter(adapter);
+        Toast.makeText(this, "加载成功！", Toast.LENGTH_SHORT).show();
         Cursor c = db.rawQuery("select * from device", null);
         if (c.getCount() != 0) {
             devices.forEach(device -> {

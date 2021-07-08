@@ -2,6 +2,7 @@ package com.app.streetlight.ui.main;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.app.streetlight.Device.Device;
+import com.app.streetlight.Device.GetDevice;
 import com.app.streetlight.Device.RequestCommand;
 import com.app.streetlight.Device.UpdateProperties;
 import com.app.streetlight.R;
 import com.app.streetlight.databinding.FragmentDetailBinding;
 import com.app.streetlight.databinding.FragmentLineBinding;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,14 +37,15 @@ import com.app.streetlight.databinding.FragmentLineBinding;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private static Device device;
     private static final StringBuilder str = new StringBuilder();
-
+    private static Device device;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private final Handler handler = new Handler();
     private int index = 1;
-
+    private TextView log;
     private FragmentDetailBinding binding;
     private FragmentLineBinding binding2;
+    private Runnable task;
 
     public static PlaceholderFragment newInstance(int index, Device d) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -79,7 +92,7 @@ public class PlaceholderFragment extends Fragment {
             }));
             TextView name = root.findViewById(R.id.detail_id);
             name.setText(device.getDeviceName());
-            TextView log = root.findViewById(R.id.log);
+            log = root.findViewById(R.id.log);
             SeekBar seekBar = root.findViewById(R.id.seekBar2);
             seekBar.setMax(1024);
             seekBar.setMin(0);
@@ -111,6 +124,29 @@ public class PlaceholderFragment extends Fragment {
                     thread.start();
                 }
             });
+            task = new Runnable() {
+                @Override
+                public void run() {
+                    handler.postDelayed(this, 15 * 1000);//设置延迟时间，此处是5秒
+                    GetDevice getDevice = new GetDevice();
+                    Future<List<Device>> future = executorService.submit(getDevice);
+                    try {
+                        List<Device> deviceList;
+                        deviceList = future.get();
+                        if (deviceList != null) {
+                            deviceList.forEach(device1 -> {
+                                if (device1.getDeviceId().equals(device.getDeviceId())) {
+                                    device = device1;
+                                    setTextEdit(device);
+                                }
+                            });
+                        }
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            handler.postDelayed(task, 3000);//延迟调用
         } else {
             binding2 = FragmentLineBinding.inflate(inflater, container, false);
             root = binding2.getRoot();
@@ -123,5 +159,15 @@ public class PlaceholderFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    public synchronized void setTextEdit(Device device) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String date = format.format(new Date());
+        str.append(date).append('\n');
+        str.append(device.toString()).append('\n').append('\n');
+        log.setText(str);
     }
 }

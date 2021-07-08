@@ -126,21 +126,15 @@ public class Device implements Serializable {
         this.rain = rain;
     }
 
+
     @NotNull
     @Override
     public String toString() {
-        return "Device{" +
-                "deviceId='" + deviceId + '\'' +
-                ", deviceName='" + deviceName + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", lum='" + lum + '\'' +
-                ", zone='" + zone + '\'' +
-                ", light='" + light + '\'' +
-                ", index=" + index +
-                ", auto=" + auto +
-                ", fog=" + fog +
-                ", rain='" + rain + '\'' +
-                '}';
+        return "环境光照强度：" + lum +
+                ",  灯亮度：" + light +
+                ",  自动调光：" + auto +
+                ",  雾灯：" + fog +
+                ",  雨滴测量量：" + rain;
     }
+
 }

@@ -1,36 +1,32 @@
 package com.app.streetlight.ui.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.app.streetlight.MainActivity;
 import com.app.streetlight.R;
-import com.app.streetlight.ui.login.LoginViewModel;
-import com.app.streetlight.ui.login.LoginViewModelFactory;
 import com.app.streetlight.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+    private SharedPreferences.Editor sharedData;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +42,15 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        final CheckBox auto = binding.auto;
+
+        SharedPreferences preferences = getSharedPreferences("login", 0);
+        if (preferences.getString("auto", "false").equals("true")) {
+            usernameEditText.setText(preferences.getString("username", "default"));
+            passwordEditText.setText(preferences.getString("password", "default"));
+            loginViewModel.login(usernameEditText.getText().toString(),
+                    passwordEditText.getText().toString());
+        }
 
         loginViewModel.getLoginFormState().observe(this, loginFormState -> {
             if (loginFormState == null) {
@@ -67,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             loadingProgressBar.setVisibility(View.GONE);
             if (loginResult.getError() != null) {
                 showLoginFailed(loginResult.getError());
+                return;
             }
             if (loginResult.getSuccess() != null) {
                 updateUiWithUser(loginResult.getSuccess());
@@ -106,18 +112,30 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
+            sharedData = getSharedPreferences("login", 0).edit();
+            sharedData.putString("auto", String.valueOf(auto.isChecked()));
+            sharedData.apply();
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
+        String welcome = getString(R.string.welcome) + model.getDisplayName() + "!";
+        sharedData = getSharedPreferences("login", 0).edit();
+        String isAuto = getSharedPreferences("login", 0)
+                .getString("auto", "false");
+        if (isAuto.equals("true")) {
+            sharedData.putString("username", binding.username.getText().toString());
+            sharedData.putString("password", binding.password.getText().toString());
+            sharedData.apply();
+        }
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        startActivity(intent);
     }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
+    private void showLoginFailed(String errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,15 +1,15 @@
 package com.app.streetlight.ui.login;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
+import com.app.streetlight.R;
 import com.app.streetlight.data.LoginRepository;
 import com.app.streetlight.data.Result;
 import com.app.streetlight.data.model.LoggedInUser;
-import com.app.streetlight.R;
 
 public class LoginViewModel extends ViewModel {
 
@@ -37,7 +37,8 @@ public class LoginViewModel extends ViewModel {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
         } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
+            loginResult.setValue(new LoginResult(((Result.Error) result).getError()));
+
         }
     }
 
@@ -65,6 +66,6 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return password != null && password.trim().length() >= 4;
     }
 }
