@@ -83,6 +83,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="marquee"
+            android:scrollbars="vertical"
             android:text="@string/plane"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"

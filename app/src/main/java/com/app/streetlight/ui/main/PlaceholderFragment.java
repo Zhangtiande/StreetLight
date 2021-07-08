@@ -3,6 +3,7 @@ package com.app.streetlight.ui.main;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,7 @@ public class PlaceholderFragment extends Fragment {
             TextView name = root.findViewById(R.id.detail_id);
             name.setText(device.getDeviceName());
             log = root.findViewById(R.id.log);
+            log.setMovementMethod(ScrollingMovementMethod.getInstance());
             SeekBar seekBar = root.findViewById(R.id.seekBar2);
             seekBar.setMax(1024);
             seekBar.setMin(0);
@@ -128,7 +130,7 @@ public class PlaceholderFragment extends Fragment {
             task = new Runnable() {
                 @Override
                 public void run() {
-                    handler.postDelayed(this, 1 * 1000);//设置延迟时间，此处是5秒
+                    handler.postDelayed(this, 15 * 1000);//设置延迟时间，此处是5秒
                     GetDevice getDevice = new GetDevice();
                     Future<List<Device>> future = executorService.submit(getDevice);
                     try {
@@ -147,7 +149,7 @@ public class PlaceholderFragment extends Fragment {
                     }
                 }
             };
-            handler.postDelayed(task, 3000);//延迟调用
+            handler.postDelayed(task, 1000);//延迟调用
         } else {
             binding2 = FragmentLineBinding.inflate(inflater, container, false);
             root = binding2.getRoot();
@@ -164,10 +166,6 @@ public class PlaceholderFragment extends Fragment {
 
 
     public synchronized void setTextEdit(Device device) {
-        if (count++ >= 6) {
-            count = 0;
-            str = new StringBuilder();
-        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         format.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         String date = format.format(new Date());

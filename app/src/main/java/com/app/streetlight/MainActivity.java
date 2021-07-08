@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
     private final Runnable task =new Runnable() {
         public void run() {
-            handler.postDelayed(this, 10 * 1000);
+            handler.postDelayed(this, 15 * 1000);
             GetDevice getDevice = new GetDevice();
             Future<List<Device>> future = executorService.submit(getDevice);
             try {
