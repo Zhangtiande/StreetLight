@@ -38,7 +38,7 @@ import java.util.concurrent.Future;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static StringBuilder str = new StringBuilder();
+    private static final StringBuilder str = new StringBuilder();
     private static Device device;
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
     private final Handler handler = new Handler();
@@ -47,7 +47,6 @@ public class PlaceholderFragment extends Fragment {
     private FragmentDetailBinding binding;
     private FragmentLineBinding binding2;
     private Runnable task;
-    private int count = 0;
 
     public static PlaceholderFragment newInstance(int index, Device d) {
         PlaceholderFragment fragment = new PlaceholderFragment();

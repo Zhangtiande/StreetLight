@@ -25,9 +25,18 @@
     <string name="tab_text_3">环境光照强度</string>
     <string name="auto">自动调整</string>
     <string name="control">亮度手动控制</string>
-    <string name="plane"></string>
+    <string name="plane"> </string>
     <string name="log">设备消息：</string>
     <string name="detail">命令下发</string>
     <string name="fog">雾灯状态</string>
-    <string name="chex">自动登录</string>
+    <string name="check">自动登录</string>
+    <string name="test">test</string>
+    <string name="good">Good</string>
+    <string name="morning">Morning</string>
+    <string name="info">We pursue a relaxed gaming experience</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_password">Forgot Password?</string>
 </resources>

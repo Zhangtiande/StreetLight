@@ -1,17 +1,17 @@
 package com.app.streetlight.ui.login;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,11 @@ import com.app.streetlight.MainActivity;
 import com.app.streetlight.R;
 import com.app.streetlight.databinding.ActivityLoginBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
@@ -28,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences.Editor sharedData;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +47,21 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
-        final ProgressBar loadingProgressBar = binding.loading;
-        final CheckBox auto = binding.auto;
+        final CheckBox auto = binding.remember;
+        final ImageView imageView = binding.imageView;
+
+        SimpleDateFormat format = new SimpleDateFormat("HH", Locale.getDefault());
+        format.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        String date = format.format(new Date());
+        int hour = Integer.parseInt(date);
+        if (hour > 18 || hour < 6) {
+            imageView.setImageResource(R.drawable.night);
+        } else if (hour >= 12) {
+            imageView.setImageResource(R.drawable.morning);
+            //TODO: set afternoon
+        } else {
+            imageView.setImageResource(R.drawable.morning);
+        }
 
         SharedPreferences preferences = getSharedPreferences("login", 0);
         if (preferences.getString("auto", "false").equals("true")) {
@@ -69,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             if (loginResult == null) {
                 return;
             }
-            loadingProgressBar.setVisibility(View.GONE);
+//            loadingProgressBar.setVisibility(View.GONE);
             if (loginResult.getError() != null) {
                 showLoginFailed(loginResult.getError());
                 return;
@@ -111,7 +130,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            loadingProgressBar.setVisibility(View.VISIBLE);
             sharedData = getSharedPreferences("login", 0).edit();
             sharedData.putString("auto", String.valueOf(auto.isChecked()));
             sharedData.apply();
