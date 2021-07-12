@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.login;
         final CheckBox auto = binding.remember;
         final ImageView imageView = binding.imageView;
+        final TextView textView = binding.textView;
 
         SimpleDateFormat format = new SimpleDateFormat("HH", Locale.getDefault());
         format.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
@@ -56,11 +58,13 @@ public class LoginActivity extends AppCompatActivity {
         int hour = Integer.parseInt(date);
         if (hour > 18 || hour < 6) {
             imageView.setImageResource(R.drawable.night);
+            textView.setText(R.string.night);
         } else if (hour >= 12) {
             imageView.setImageResource(R.drawable.morning);
-            //TODO: set afternoon
+            textView.setText(R.string.afternoon);
         } else {
             imageView.setImageResource(R.drawable.morning);
+            textView.setText(R.string.morning);
         }
 
         SharedPreferences preferences = getSharedPreferences("login", 0);

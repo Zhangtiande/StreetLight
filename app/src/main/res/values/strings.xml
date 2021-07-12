@@ -33,6 +33,8 @@
     <string name="test">test</string>
     <string name="good">Good</string>
     <string name="morning">Morning</string>
+    <string name="night">Night</string>
+    <string name="afternoon">AfterNoon</string>
     <string name="info">We pursue a relaxed gaming experience</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

@@ -129,7 +129,7 @@ public class PlaceholderFragment extends Fragment {
             task = new Runnable() {
                 @Override
                 public void run() {
-                    handler.postDelayed(this, 15 * 1000);//设置延迟时间，此处是5秒
+                    handler.postDelayed(this, 15 * 1000);
                     GetDevice getDevice = new GetDevice();
                     Future<List<Device>> future = executorService.submit(getDevice);
                     try {
